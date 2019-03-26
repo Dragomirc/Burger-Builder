@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import classes from "./styles.css";
+import classes from "./styles.module.css";
 
 const Layout = props => {
-    console.log(classes);
     return (
         <React.Fragment>
             <div>Toolbar, SideDrawer, Backdrop</div>
