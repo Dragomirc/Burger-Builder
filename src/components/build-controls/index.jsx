@@ -21,10 +21,16 @@ const controls = [
         type: "meat"
     }
 ];
-const BuildControls = ({ add, remove, totalPrice, purchasable }) => (
+const BuildControls = ({
+    add,
+    remove,
+    totalPrice,
+    purchasable,
+    purchaseHandler
+}) => (
     <div className={classes.BuildControls}>
         <p>
-            Current Price: <strong>{totalPrice.toFixed()}</strong>
+            Current Price: <strong>{totalPrice.toFixed(2)}</strong>
         </p>
         {controls.map(({ label, type }) => (
             <BuildControl
@@ -34,7 +40,11 @@ const BuildControls = ({ add, remove, totalPrice, purchasable }) => (
                 remove={() => remove(type)}
             />
         ))}
-        <button disabled={!purchasable} className={classes.OrderButton}>
+        <button
+            disabled={!purchasable}
+            className={classes.OrderButton}
+            onClick={purchaseHandler}
+        >
             ORDER NOW
         </button>
     </div>
