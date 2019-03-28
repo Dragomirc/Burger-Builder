@@ -1,21 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Toolbar from "../toolbar";
 import classes from "./styles.module.css";
 
 const Layout = props => {
-    return (
-        <React.Fragment>
-            <div>Toolbar, SideDrawer, Backdrop</div>
-            <main className={classes.content}>{props.children}</main>
-        </React.Fragment>
-    );
+	return (
+		<React.Fragment>
+			<Toolbar />
+			<main className={classes.Content}>{props.children}</main>
+		</React.Fragment>
+	);
 };
 
 export default Layout;
 
 Layout.propTypes = {
-    children: PropTypes.object
+	children: PropTypes.object
 };
 Layout.defaultProps = {
-    children: null
+	children: null
 };
