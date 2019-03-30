@@ -22,7 +22,7 @@
 	transform: translateY(0);
 }
 .Close {
-	transform: translateY(-100);
+	transform: translateY(-100vh);
 }
 
 .Logo {
