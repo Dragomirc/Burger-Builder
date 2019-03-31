@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import Burger from "../../components/burger";
 import Buildcontrols from "../../components/build-controls";
 import Modal from "../../components/modal";
@@ -61,25 +62,16 @@ class BurgerBuilder extends Component {
 		this.setState({ purchasing: false });
 	};
 	purchaseContinueHandler = () => {
-		const order = {
-			ingredients: this.state.ongredients,
-			price: this.state.totalPrice,
-			customer: {
-				name: "Dragomir Ceban",
-				address: {
-					street: "Teststreet 1",
-					zipCode: "41351",
-					country: "Germany"
-				},
-				email: "test@test.com"
-			},
-			deliveryMethod: "fastest"
-		};
-		this.setState({ loading: true });
-		axios
-			.post("/orders.json", order)
-			.then(res => this.setState({ loading: false, purchasing: false }))
-			.catch(res => this.setState({ loading: false, purchasing: false }));
+		const queryParams = [];
+		for (let i in this.state.ingredients) {
+			queryParams.push(
+				encodeURIComponent(i) +
+					"=" +
+					encodeURIComponent(this.state.ingredients[i])
+			);
+		}
+		queryParams.push("price=" + this.state.totalPrice);
+		this.props.history.push(`/checkout?${queryParams.join("&")}`);
 	};
 	render() {
 		const { ingredients, totalPrice, purchasable, purchasing } = this.state;
