@@ -36,7 +36,7 @@ class ContactData extends Component {
 			.post("/orders.json", order)
 			.then(res => this.setState({ loading: false }))
 			.catch(res => this.setState({ loading: false, purchasing: false }));
-		console.log(this.props.ingredients);
+		this.props.history.push("/");
 	};
 	render() {
 		let form = (
