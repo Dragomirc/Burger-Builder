@@ -1,0 +1,8 @@
+export const INGREDIENTS = {
+    UPDATE_INGREDIENTS: "UPDATE_INGREDIENTS"
+};
+
+export const TOTAL_PRICE = {
+    ADD: "TOTAL_PRICE.ADD",
+    REMOVE: "TOTAL_PRICE.REMOVE"
+};

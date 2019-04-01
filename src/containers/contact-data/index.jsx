@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import axios from "../../axios-orders.js";
 import Button from "../../components/button";
 import Spinner from "../../components/spinner";
@@ -187,4 +188,5 @@ class ContactData extends Component {
     }
 }
 
-export default ContactData;
+const mapStateToProps = ({ ingredients }) => ({ ingredients });
+export default connect(mapStateToProps)(ContactData);
