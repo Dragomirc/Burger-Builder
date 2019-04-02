@@ -188,5 +188,8 @@ class ContactData extends Component {
     }
 }
 
-const mapStateToProps = ({ ingredients }) => ({ ingredients });
+const mapStateToProps = ({ ingredients, totalPrice }) => ({
+    ingredients,
+    totalPrice
+});
 export default connect(mapStateToProps)(ContactData);
