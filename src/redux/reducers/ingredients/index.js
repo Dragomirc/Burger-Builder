@@ -1,20 +1,38 @@
 import { INGREDIENTS } from "../../constants";
 
 const initialState = {
-    bacon: 0,
-    cheese: 0,
-    meat: 0,
-    salad: 0
+    error: null,
+    loading: false,
+    data: null
 };
 
-export default (state = initialState, { type, payload }) => {
+const updateIngredients = (state = initialState, { type, payload }) => {
     switch (type) {
         case INGREDIENTS.UPDATE_INGREDIENTS:
             return {
                 ...state,
-                ...payload
+                data: { ...payload }
+            };
+        case INGREDIENTS.GET_INGREDIENTS_REQUEST:
+            return {
+                ...initialState,
+                loading: true
+            };
+        case INGREDIENTS.GET_INGREDIENTS_SUCCESS:
+            return {
+                ...initialState,
+                loading: false,
+                data: { ...payload }
+            };
+        case INGREDIENTS.GET_INGREDIENTS_ERROR:
+            return {
+                ...initialState,
+                loading: false,
+                error: payload
             };
         default:
             return state;
     }
 };
+
+export default updateIngredients;

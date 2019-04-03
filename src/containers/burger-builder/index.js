@@ -7,7 +7,11 @@ import OrderSummary from "../../components/order-summary";
 import Spinner from "../../components/spinner";
 import withErrorHandler from "../../components/hoc/with-error-handler";
 import axios from "../../axios-orders.js";
-import { updateIngredients } from "../../redux/actions/ingredients";
+import {
+    updateIngredients,
+    fetchIngredients
+} from "../../redux/actions/ingredients";
+import { resetPrice } from "../../redux/actions/price";
 import { addCost, removeCost } from "../../redux/actions/price";
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -17,26 +21,22 @@ const INGREDIENT_PRICES = {
 };
 class BurgerBuilder extends Component {
     state = {
-        purchasing: false,
-        loading: false,
-        error: false
+        purchasing: false
     };
     componentDidMount() {
-        // axios
-        // 	.get("/ingredients.json")
-        // 	.then(res => this.setState({ ingredients: res.data }))
-        // 	.catch(error => this.setState({ error: true }));
+        this.props.fetchIngredients();
+        this.props.resetPrice();
     }
 
     addIngredientHandler = type => {
-        const updatedIngredients = { ...this.props.ingredients };
+        const updatedIngredients = { ...this.props.ingredients.data };
         updatedIngredients[type] = updatedIngredients[type] + 1;
         this.props.updateIngredients(updatedIngredients);
 
         this.props.addCost(INGREDIENT_PRICES[type]);
     };
     removeIngredientHandler = type => {
-        const updatedIngredients = { ...this.props.ingredients };
+        const updatedIngredients = { ...this.props.ingredients.data };
         updatedIngredients[type] = updatedIngredients[type] - 1;
         this.props.updateIngredients(updatedIngredients);
 
@@ -56,15 +56,15 @@ class BurgerBuilder extends Component {
         const { totalPrice } = this.props;
         let orderSummary = null;
         const { ingredients } = this.props;
-        let burger = this.state.error ? (
+        let burger = this.props.ingredients.error ? (
             <p>Ingredientes cannot be loaded!</p>
         ) : (
             <Spinner />
         );
-        if (ingredients) {
+        if (ingredients.data) {
             burger = (
                 <React.Fragment>
-                    <Burger ingredients={ingredients} />
+                    <Burger ingredients={ingredients.data} />
                     <Buildcontrols
                         add={this.addIngredientHandler}
                         remove={this.removeIngredientHandler}
@@ -76,16 +76,14 @@ class BurgerBuilder extends Component {
             );
             orderSummary = (
                 <OrderSummary
-                    ingredients={ingredients}
+                    ingredients={ingredients.data}
                     totalPrice={totalPrice}
                     purchaseCanceled={this.purchaseCancelHandler}
                     purchaseContinued={this.purchaseContinueHandler}
                 />
             );
         }
-        if (this.state.loading) {
-            orderSummary = <Spinner />;
-        }
+
         return (
             <React.Fragment>
                 <Modal
@@ -106,5 +104,5 @@ const mapStateToProps = ({ ingredients, totalPrice }) => ({
 });
 export default connect(
     mapStateToProps,
-    { updateIngredients, addCost, removeCost }
+    { updateIngredients, fetchIngredients, addCost, removeCost, resetPrice }
 )(withErrorHandler(BurgerBuilder, axios));

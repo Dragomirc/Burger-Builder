@@ -13,3 +13,9 @@ export const removeCost = value => {
         payload: value
     };
 };
+
+export const resetPrice = () => {
+    return {
+        type: TOTAL_PRICE.RESET
+    };
+};

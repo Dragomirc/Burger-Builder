@@ -4,6 +4,9 @@ import axios from "../../axios-orders.js";
 import Button from "../../components/button";
 import Spinner from "../../components/spinner";
 import Input from "../../components/input";
+import { orderPurchaseRequest, purchaseInit } from "../../redux/actions/orders";
+
+import withErrorHandler from "../../components/hoc/with-error-handler";
 import classes from "./styles.module.css";
 class ContactData extends Component {
     state = {
@@ -79,7 +82,7 @@ class ContactData extends Component {
                 valid: true
             }
         },
-        loading: false,
+
         formIsValid: false
     };
 
@@ -127,17 +130,13 @@ class ContactData extends Component {
             formData[key] = { value: this.state.orderForm[key].value };
         }
         const order = {
-            ingredients: this.props.ingredients,
+            ingredients: this.props.ingredients.data,
             price: this.props.totalPrice,
             formData
         };
-        this.setState({ loading: true });
-
-        axios
-            .post("/orders.json", order)
-            .then(res => this.setState({ loading: false }))
-            .catch(res => this.setState({ loading: false, purchasing: false }));
-        this.props.history.push("/");
+        this.props.orderPurchaseRequest(order);
+        this.props.purchaseInit();
+        // this.props.history.push("/");
     };
     render() {
         let inputElements = Object.keys(this.state.orderForm).map(input => {
@@ -181,15 +180,19 @@ class ContactData extends Component {
                 </form>
             </div>
         );
-        if (this.state.loading) {
+        if (this.props.orders.loading) {
             form = <Spinner />;
         }
         return <React.Fragment>{form}</React.Fragment>;
     }
 }
 
-const mapStateToProps = ({ ingredients, totalPrice }) => ({
+const mapStateToProps = ({ ingredients, totalPrice, orders }) => ({
     ingredients,
-    totalPrice
+    totalPrice,
+    orders
 });
-export default connect(mapStateToProps)(ContactData);
+export default connect(
+    mapStateToProps,
+    { orderPurchaseRequest, purchaseInit }
+)(withErrorHandler(ContactData, axios));

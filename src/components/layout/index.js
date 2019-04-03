@@ -5,39 +5,39 @@ import SideDrawer from "../side-drawer";
 import classes from "./styles.module.css";
 
 class Layout extends Component {
-	state = {
-		showSideDrawer: false
-	};
+    state = {
+        showSideDrawer: false
+    };
 
-	sideDrawerClosedHandler = () => {
-		this.setState({ showSideDrawer: false });
-	};
+    sideDrawerClosedHandler = () => {
+        this.setState({ showSideDrawer: false });
+    };
 
-	sideDrawerToggleHandler = () => {
-		this.setState(prevState => {
-			return { showSideDrawer: !prevState.showSideDrawer };
-		});
-	};
-	render() {
-		return (
-			<React.Fragment>
-				<Toolbar drawerToggleClicked={this.sideDrawerToggleHandler} />
-				<SideDrawer
-					open={this.state.showSideDrawer}
-					closed={this.sideDrawerClosedHandler}
-				/>
+    sideDrawerToggleHandler = () => {
+        this.setState(prevState => {
+            return { showSideDrawer: !prevState.showSideDrawer };
+        });
+    };
+    render() {
+        return (
+            <React.Fragment>
+                <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler} />
+                <SideDrawer
+                    open={this.state.showSideDrawer}
+                    closed={this.sideDrawerClosedHandler}
+                />
 
-				<main className={classes.Content}>{this.props.children}</main>
-			</React.Fragment>
-		);
-	}
+                <main className={classes.Content}>{this.props.children}</main>
+            </React.Fragment>
+        );
+    }
 }
 
 export default Layout;
 
 Layout.propTypes = {
-	children: PropTypes.object
+    children: PropTypes.array
 };
 Layout.defaultProps = {
-	children: null
+    children: null
 };

@@ -8,6 +8,8 @@ export default (state = initialState, { type, payload }) => {
             return state + payload;
         case TOTAL_PRICE.REMOVE:
             return state - payload;
+        case TOTAL_PRICE.RESET:
+            return initialState;
         default:
             return state;
     }
