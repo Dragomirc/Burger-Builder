@@ -9,7 +9,7 @@ import classes from "./styles.module.css";
 
 class Orders extends Component {
     componentDidMount() {
-        this.props.fetchOrders();
+        this.props.fetchOrders(this.props.auth.token);
     }
     render() {
         let orders = <Spinner />;
@@ -31,7 +31,7 @@ class Orders extends Component {
     }
 }
 
-const mapStateToProps = ({ orders }) => ({ orders });
+const mapStateToProps = ({ orders, auth }) => ({ orders, auth });
 export default connect(
     mapStateToProps,
     { fetchOrders }

@@ -3,7 +3,8 @@ import { INGREDIENTS } from "../../constants";
 const initialState = {
     error: null,
     loading: false,
-    data: null
+    data: null,
+    building: false
 };
 
 const updateIngredients = (state = initialState, { type, payload }) => {
@@ -11,22 +12,25 @@ const updateIngredients = (state = initialState, { type, payload }) => {
         case INGREDIENTS.UPDATE_INGREDIENTS:
             return {
                 ...state,
+                building: true,
                 data: { ...payload }
             };
         case INGREDIENTS.GET_INGREDIENTS_REQUEST:
             return {
-                ...initialState,
+                ...state,
+                error: null,
                 loading: true
             };
         case INGREDIENTS.GET_INGREDIENTS_SUCCESS:
             return {
-                ...initialState,
+                ...state,
+                error: null,
                 loading: false,
                 data: { ...payload }
             };
         case INGREDIENTS.GET_INGREDIENTS_ERROR:
             return {
-                ...initialState,
+                ...state,
                 loading: false,
                 error: payload
             };

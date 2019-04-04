@@ -13,6 +13,7 @@ import {
 } from "../../redux/actions/ingredients";
 import { resetPrice } from "../../redux/actions/price";
 import { addCost, removeCost } from "../../redux/actions/price";
+import { setAuthRedirectPath } from "../../redux/actions/auth";
 const INGREDIENT_PRICES = {
     salad: 0.5,
     bacon: 0.7,
@@ -43,7 +44,12 @@ class BurgerBuilder extends Component {
         this.props.removeCost(INGREDIENT_PRICES[type]);
     };
     purchaseHandler = () => {
-        this.setState({ purchasing: true });
+        if (this.props.isAuthenticated) {
+            this.setState({ purchasing: true });
+        } else {
+            this.props.setAuthRedirectPath("/checkout");
+            this.props.history.push("/auth");
+        }
     };
     purchaseCancelHandler = () => {
         this.setState({ purchasing: false });
@@ -71,6 +77,7 @@ class BurgerBuilder extends Component {
                         totalPrice={totalPrice}
                         purchasable={totalPrice > 0}
                         purchaseHandler={this.purchaseHandler}
+                        isAuthenticated={this.props.isAuthenticated}
                     />
                 </React.Fragment>
             );
@@ -98,11 +105,19 @@ class BurgerBuilder extends Component {
     }
 }
 
-const mapStateToProps = ({ ingredients, totalPrice }) => ({
+const mapStateToProps = ({ ingredients, totalPrice, auth }) => ({
     ingredients,
-    totalPrice
+    totalPrice,
+    isAuthenticated: auth.token !== null
 });
 export default connect(
     mapStateToProps,
-    { updateIngredients, fetchIngredients, addCost, removeCost, resetPrice }
+    {
+        updateIngredients,
+        fetchIngredients,
+        addCost,
+        removeCost,
+        resetPrice,
+        setAuthRedirectPath
+    }
 )(withErrorHandler(BurgerBuilder, axios));

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Toolbar from "../toolbar";
 import SideDrawer from "../side-drawer";
 import classes from "./styles.module.css";
@@ -19,12 +20,18 @@ class Layout extends Component {
         });
     };
     render() {
+        const { isAuthenticated } = this.props;
+
         return (
             <React.Fragment>
-                <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler} />
+                <Toolbar
+                    drawerToggleClicked={this.sideDrawerToggleHandler}
+                    isAuthenticated={isAuthenticated}
+                />
                 <SideDrawer
                     open={this.state.showSideDrawer}
                     closed={this.sideDrawerClosedHandler}
+                    isAuthenticated={isAuthenticated}
                 />
 
                 <main className={classes.Content}>{this.props.children}</main>
@@ -33,7 +40,10 @@ class Layout extends Component {
     }
 }
 
-export default Layout;
+const mapStateToProps = ({ auth }) => ({
+    isAuthenticated: auth.token !== null
+});
+export default connect(mapStateToProps)(Layout);
 
 Layout.propTypes = {
     children: PropTypes.array

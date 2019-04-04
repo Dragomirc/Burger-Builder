@@ -15,10 +15,10 @@ export const orderPurchaseFail = error => {
     };
 };
 
-export const orderPurchaseRequest = orderData => dispatch => {
+export const orderPurchaseRequest = (orderData, token) => dispatch => {
     dispatch({ type: ORDERS.PURCHASE_REQUEST });
     return axios
-        .post("/orders.json", orderData)
+        .post(`/orders.json?auth=${token}`, orderData)
         .then(res => dispatch(orderPurchaseSuccess(res.name, orderData)))
         .catch(err => dispatch(orderPurchaseFail(err.message)));
 };
@@ -43,13 +43,13 @@ export const fetchOrdersSuccess = orders => {
 export const fetchOrdersFail = err => {
     return {
         type: ORDERS.FETCH_ORDERS_FAIL,
-        payload: err
+        error: err
     };
 };
-export const fetchOrders = () => dispatch => {
+export const fetchOrders = token => dispatch => {
     dispatch(fetchOrdersStart());
-    axios
-        .get("/orders.json")
+    return axios
+        .get(`/orders.json?auth=${token}`)
         .then(res => {
             const fetchedOrders = [];
             for (let key in res.data) {

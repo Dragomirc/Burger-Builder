@@ -21,3 +21,11 @@ export const ORDERS = {
 };
 
 export const PURCHASE_INIT = "PURCHASE_INIT";
+
+export const AUTH = {
+    START: "AUTH_START",
+    SUCCESS: "AUTH_SUCCESS",
+    FAIL: "AUTH_FAIL",
+    LOGOUT: "AUTH_LOGOUT",
+    SET_AUTH_REDIRECT_PATH: "SET_AUTH_REDIRECT_PATH"
+};
