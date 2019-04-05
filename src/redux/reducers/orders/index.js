@@ -1,5 +1,4 @@
 import { ORDERS, PURCHASE_INIT } from "../../constants";
-import { fetchOrders } from "../../actions/orders";
 
 const initialState = {
     loading: false,
