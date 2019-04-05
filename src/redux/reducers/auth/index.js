@@ -12,7 +12,6 @@ const authReducer = (state = initialState, action) => {
         case AUTH.START:
             return {
                 ...state,
-
                 loading: true
             };
         case AUTH.SUCCESS:

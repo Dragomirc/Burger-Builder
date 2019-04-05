@@ -154,8 +154,10 @@ class ContactData extends Component {
         const order = {
             ingredients: this.props.ingredients.data,
             price: this.props.totalPrice,
-            formData
+            formData,
+            userId: this.props.auth.userId
         };
+        console.log(order);
         this.props.orderPurchaseRequest(order, this.props.auth.token);
         this.props.purchaseInit();
         // this.props.history.push("/");

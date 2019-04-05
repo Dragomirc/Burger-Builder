@@ -9,7 +9,7 @@ import classes from "./styles.module.css";
 
 class Orders extends Component {
     componentDidMount() {
-        this.props.fetchOrders(this.props.auth.token);
+        this.props.fetchOrders(this.props.auth.token, this.props.auth.userId);
     }
     render() {
         let orders = <Spinner />;
